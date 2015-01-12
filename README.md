@@ -42,6 +42,7 @@
 
 ### Contacts
 * Bastien Maria (Nice) > bastien.maria@gmail.com
+* Wijdane Nouira (Nice) > nouirawijdane@yahoo.fr
 * Justin Mulenet (Nice) > justinmulenet@gmail.com
 
 Vous trouverez plus d'informations sur notre [wiki](https://github.com/ALXRSS/WebRTC-Conf/wiki)
