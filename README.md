@@ -40,4 +40,7 @@
 * fonctionnel sur des machines différentes sur le même réseau
 * fonctionnel sur des machines différentes sur un réseau différent (paramétrage nécessaire)
 
+### Contacts
+* Bastien Maria (Nice) > bastien.maria@gmail.com
+
 Vous trouverez plus d'informations sur notre [wiki](https://github.com/ALXRSS/WebRTC/wiki)
