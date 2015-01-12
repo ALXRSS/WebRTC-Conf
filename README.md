@@ -44,4 +44,4 @@
 * Bastien Maria (Nice) > bastien.maria@gmail.com
 * Wijdane Nouira (Nice) > nouirawijdane@yahoo.fr
 
-Vous trouverez plus d'informations sur notre [wiki](https://github.com/ALXRSS/WebRTC/wiki)
+Vous trouverez plus d'informations sur notre [wiki](https://github.com/ALXRSS/WebRTC-Conf/wiki)
