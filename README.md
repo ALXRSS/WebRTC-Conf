@@ -44,4 +44,4 @@
 * Bastien Maria (Nice) > bastien.maria@gmail.com
 * Justin Mulenet (Nice) > justinmulenet@gmail.com
 
-Vous trouverez plus d'informations sur notre [wiki](https://github.com/ALXRSS/WebRTC/wiki)
+Vous trouverez plus d'informations sur notre [wiki](https://github.com/ALXRSS/WebRTC-Conf/wiki)
