@@ -33,6 +33,15 @@
 * Améliorer le design de base
 * Intégrer une page d'accueil
 * responsive --> a faire
+
+### Système de notification
+* Notification lors de la réception d'un message
+* lorsque le chat est fermé
+
+### Drag & Drop
+* Fonction Drag & Drop sur les vidéos distantes
+* active lors du clic sur le bouton associé
+* _module utile : draggabilly_
   
 ### Accessibilité
 * via le navigateur de chacun (Chrome, Firefox en priorité)
