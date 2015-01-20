@@ -6,6 +6,7 @@ var qsa = require('fdom/qsa');
 var tweak = require('fdom/classtweak');
 var reRoomName = /^\/room\/(.*?)\/?$/;
 var room = location.pathname.replace(reRoomName, '$1').replace('/', '');
+var Draggabilly = require('draggabilly');
 
 // local & remote video areas
 var local = qsa('.local')[0];
@@ -115,6 +116,35 @@ $('#invitation').click(function() {
 //});
 
 ////////////////////////////////////////////////////////////////
+
+// start Drag n Drop
+$('#draggableBtn').click(function() {
+  $('.remote').children('video').addClass('draggable');
+    var element = document.querySelectorAll('.draggable');
+
+  var i;
+  for (i = 0; i < element.length; i++) {
+
+	element[i].style.cursor = "move";
+
+    var draggie = new Draggabilly(element[i]);
+	
+    function onDragMove( instance, event, pointer ) {
+      console.log( 'dragMove on ' + event.type +
+      pointer.pageX + ', ' + pointer.pageY +
+      ' position at ' + instance.position.x + ', ' + instance.position.y );
+    }
+    // bind event listener
+    draggie.on( 'dragMove', onDragMove );
+    // un-bind event listener
+    draggie.off( 'dragMove', onDragMove );
+    // return true to trigger an event listener just once
+    draggie.once( 'dragMove', function() {
+      console.log('Draggabilly did move, just once');
+    });
+  }
+});
+// end Drag n Drop
 
 // render a remote video
 function renderRemote(id, stream) {
