@@ -58,8 +58,27 @@ io.sockets.on('connection', function (socket, pseudo) {
         socket.broadcast.emit('nouveau_client', pseudo);
         //Ajout du nouveau participant a la liste
         participants.push(pseudo);
-            // On donne la liste des participants (événement créé du côté client)
-            socket.emit('recupererParticipants', participants);
+        // On donne la liste des participants (événement créé du côté client)
+        socket.emit('recupererParticipants', participants);
+        fs.stat(__dirname + "/data/mainRoom.txt", function(err, stat) {
+	        if(err){
+	        	fs.writeFile(__dirname + "/data/mainRoom.txt", "");
+	        }
+	        else {
+	        	var text = fs.readFileSync(__dirname + "/data/mainRoom.txt", "UTF-8");
+	        	var lines = text.split('\n');
+	        	
+		        //for(var i = lines.length - 2; i >= 0; --i) {
+	        	// lines.length - 1, because we begin with a file with an empty line
+	        	for(var i = 0; i < lines.length - 1; ++i) {
+		        	console.log(lines.length);
+		        	var a = lines[i].search(" : ");
+		        	var pseudoLine = lines[i].substring(0,a);
+		        	var messageLine = lines[i].substring(a+3,lines[i].length);
+		        	socket.emit('message', {pseudo: pseudoLine, message: messageLine});
+		        }
+	        }
+        });
     });
 
     // Dès qu'on reçoit un message, on récupère le pseudo de son auteur et on le transmet aux autres personnes
@@ -67,7 +86,12 @@ io.sockets.on('connection', function (socket, pseudo) {
         socket.get('pseudo', function (error, pseudo) {
             message = ent.encode(message);
             socket.broadcast.emit('message', {pseudo: pseudo, message: message});
-        });
+            // append at the beginning of the file the log of the chat
+			fs.appendFile(__dirname + "/data/mainRoom.txt", pseudo + " : " + message + "\n", function(err) {
+				if(err) throw err;
+				console.log("The file was saved!");
+			});
+		});
     });
   
   // Vider l'objet à la déconnexion
@@ -97,7 +121,7 @@ io.sockets.on('connection', function (socket, pseudo) {
         transporter.sendMail(mailOptions, function(error, info){
           if(error){
            console.log(error);
-         }else{
+          }else{
            console.log('Message sent: ' + info.response);
           }
         });
