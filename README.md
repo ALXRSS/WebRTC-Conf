@@ -51,16 +51,16 @@
 
 ### Contacts
 
-*Nice
+Nice
 * Michel Buffa (Nice) > micbuffa@gmail.com
 * Bastien Maria (Nice) > bastien.maria@gmail.com
 * Wijdane Nouira (Nice) > nouirawijdane@yahoo.fr
 * Justin Mulenet (Nice) > justinmulenet@gmail.com
 
-*Evry
+Evry
 * Didier Courtaud (Evry) > didier.courtaud@free.fr
 * Valérian Dieu (Evry) > polskataga@gmail.com
-* Alexandre Rousseau (EVry) > alxrss@hotmail.fr
+* Alexandre Rousseau (Evry) > alxrss@hotmail.fr
 * Emmanuel Petit (Evry) > petit.emmanuel.91@gmail.com
 
 
