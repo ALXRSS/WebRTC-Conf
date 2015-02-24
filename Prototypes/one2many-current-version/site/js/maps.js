@@ -39,7 +39,6 @@ socket.on('supprimerPosition', function (pseudo) {
         if (utilisateurs[i] == pseudo) {
             pos = i;
         }
-
     }
     if (pos) {
         marqueurs[pos].setMap(null);
