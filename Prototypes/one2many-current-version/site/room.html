@@ -1,75 +1,102 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<title>Prototype WebRTC-Conf</title>
-	<link rel="stylesheet" href="../../css/room.css" />
-</head>
-<body>
-	<div id="st-container" class="st-container">
-		
-		<header>
-			<div class="st-pusher">
-				<div class="st-content">
-					<div id="st-trigger-effects">
-						<button data-effect="st-effect-1" id="contener" class="contener">
-							<img id="bubble" class="bubble" alt="bubble" src="../../img/bubbleBtn.png" />
-						</button>
-					</div>
-				</div>
-			</div>
-			<img id="draggableBtn" class="draggableBtn" alt="drag" src="../../img/dragBtn.png" />
-			<h1 id="titre">WebRTC-Conf  <img src="../../img/webrtc_logo.png" alt="webrtc" /></h1>
-			<img id="invitation" class="invitation" alt="invite" src="../../img/addBtn.png" />
-			<div id="parts">
-				<img class="img_parts" src="../../img/peopleBtn.png" alt="parts" />
-				<fieldset id="zone_parts">
-					<legend>Liste des participants</legend>
-					<ul id="list_parts"></ul>   
-				</fieldset>
-			</div>
-		</header>
-		
-		<div class="layout layout-hz">
-			
-			<div class="st-menu st-effect-1" >
-				<div id="chat" class="chat">
-					<h4>Messagerie instantan&eacute;e</h4>
-					<form action="/" method="post" id="formulaire_chat">
-						<input type="text" name="message" id="message" placeholder="Votre message..." size="30" autofocus />
-					</form>
+    <head>
+        <title>Prototype WebRTC-Conf</title>
+        <link rel="stylesheet" href="../../css/room.css" />
+        <link rel="stylesheet" href="../../js/tree/css/basic.css" />
+        <link type="text/css" rel="stylesheet" href="../../js/tree/css/enhanced.css">
+        <link type="text/css" rel="stylesheet" href="../../css/dropzone.css">
+        <link type="text/css" rel="stylesheet" href="../../css/pure-drawer.css">
+        <link type="text/css" rel="stylesheet" href="../../scss/pure-drawer.scss">
+    </head>
+    <body>
 
-					<div id="zone_chat">
-						<ul id="list_chat"></ul>
-					</div>
-				</div>
-			</div>
-			
-			<article>
-				<div id="bloc-conf-publique" class="visible">
-					<input type="text" id="conference-name" placeholder="Broadcast Name">
-					<button id="start-conferencing">New Broadcast</button>
-				</div>
-				
-				<div id="rooms-list" class="visible"></div>
+        <div id="st-container" class="st-container">
 
-				<div id="participants"></div>
-				
-			</article>
-				
-		</div>
-		
-	</div>
+            <header>
+                <div class="st-pusher">
+                    <div class="st-content">
+                        <div id="st-trigger-effects">
+                            <button data-effect="st-effect-1" id="contener" class="contener">
+                                <img id="bubble" class="bubble" alt="bubble" src="../../img/bubbleBtn.png" />
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <img id="draggableBtn" class="draggableBtn" alt="drag" src="../../img/dragBtn.png" />
+                <h1 id="titre">WebRTC-Conf  <img src="../../img/webrtc_logo.png" alt="webrtc" /></h1>
+                <img id="invitation" class="invitation" alt="invite" src="../../img/addBtn.png" />
+                <div id="parts">
+                    <img class="img_parts" src="../../img/peopleBtn.png" alt="parts" />
+                    <fieldset id="zone_parts">
+                        <legend>Liste des participants</legend>
+                        <ul id="list_parts"></ul>   
+                    </fieldset>
+                </div>
+            </header>
 
-	<script src="../../js/firebase.js"> </script>
-	<script src="../../js/RTCPeerConnection-v1.5.js"> </script>
-	<script src="https://www.webrtc-experiment.com/broadcast/broadcast.js"> </script>
-	<script src="../../js/broadcast-ui.js"> </script>
-			
-	<script src="../../rtc.io/primus.js"></script>
-	<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
-	<script src="/socket.io/socket.io.js"></script>
-	<script src="../../js/room.js"></script>
-	<script src="../../js/classie.js"></script>
-	<script src="../../js/sidebarEffects.js"></script>
-</body>
+            <div class="layout layout-hz">
+
+                <div class="st-menu st-effect-1" >
+                    <div id="chat" class="chat">
+                        <h4>Messagerie instantan&eacute;e</h4>
+                        <form action="/" method="post" id="formulaire_chat">
+                            <input type="text" name="message" id="message" placeholder="Votre message..." size="30" autofocus />
+                        </form>
+
+                        <div id="zone_chat">
+                            <ul id="list_chat"></ul>
+                        </div>
+                    </div>
+                </div>
+
+                <article>
+                    <div id="bloc-conf-publique" class="visible">
+                        <input type="text" id="conference-name" placeholder="Broadcast Name">
+                        <button id="start-conferencing">New Broadcast</button>
+                    </div>
+
+                    <div id="rooms-list" class="visible"></div>
+
+                    <div id="participants"></div>
+
+                </article>
+
+            </div>
+
+            <div class="pure-container" data-effect="pure-effect-slide"> 
+                <input type="checkbox" id="pure-toggle-right" class="pure-toggle" data-toggle="right"> 
+
+                <label class="pure-toggle-label" for="pure-toggle-right" data-toggle-label="right"> 
+                    <span class="pure-toggle-icon"></span> 
+                </label> 
+
+                <div class="pure-drawer" data-position="right"> 
+                    <!-- Dropzone -->
+                    <form action="/upload" id="my-awesome-dropzone" class="dropzone" ></form>
+                    <!-- Explorer -->
+                    <div id="tree" ></div>
+                    <div id="previewZone" style="display:none"></div>
+                </div> 
+                <!--            <div class="pure-pusher-container"> <div class="pure-pusher"> Put your site content here </div> </div>-->
+                <label class="pure-overlay" for="pure-toggle-right" data-overlay="right"></label> 
+            </div> 
+
+        </div>
+
+        <script src="../../js/firebase.js"></script>
+        <script src="../../js/RTCPeerConnection-v1.5.js"></script>
+        <script src="https://www.webrtc-experiment.com/broadcast/broadcast.js"></script>
+        <script src="../../js/broadcast-ui.js"></script>
+
+        <script src="../../rtc.io/primus.js"></script>
+        <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+        <script src="/socket.io/socket.io.js"></script>
+        <script src="../../js/room.js"></script>
+        <script src="../../js/explorer.js"></script>
+        <script src="../../js/classie.js"></script>
+        <script src="../../js/sidebarEffects.js"></script>
+        <script src="../../js/tree/js/jQuery.tree.js"></script>
+
+    </body>
 </html>
