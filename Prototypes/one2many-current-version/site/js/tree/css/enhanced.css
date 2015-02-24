@@ -10,7 +10,7 @@
     border:1px #fff; 
     background:url(../images/icon-file.gif) 5px 50% no-repeat; 
     white-space: nowrap; 
-    width: 18em; 
+    width: 24em; 
     overflow: hidden; 
     text-overflow:ellipsis
 }
