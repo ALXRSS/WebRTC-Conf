@@ -16,7 +16,8 @@ var sharedFolder = "./shared";
 
 // Liste des participants
 var participants = [];
-
+// Liste des positions 
+var positions = [];
 // create the switchboard
 var switchboard = require('rtc-switchboard')(server);
 
@@ -114,13 +115,49 @@ io.sockets.on('connection', function (socket, pseudo) {
     socket.on('disconnect', function () {
         socket.get('pseudo', function (error, pseudo) {
             socket.broadcast.emit('disconnect', pseudo);
+            socket.broadcast.emit('supprimerPosition', pseudo);
             // mettre Ã  jour la liste des participants et la renvoyer aux autres clients
             var index = participants.indexOf(pseudo);
             participants.splice(index, 1);
             socket.broadcast.emit('recupererParticipants', participants);
+            var pos = null;
+
+            for (var i = 0; i < positions.length; i++) {
+                if (positions[i].pseudo == pseudo) {
+                    pos = i;
+                    console.log("trouvé pos : " + pos);
+                }
+
+            }
+            positions.splice(pos, 1);
+            console.log("Pseudo supprimé : " + pseudo);
+            for (var i = 0; i < positions.length; i++) {
+                console.log("Pseudo connecté : " + positions[i].pseudo);
+            }
+
+            socket.broadcast.emit('recupererPosition', positions);
         });
     });
 
+    socket.on('nouvelle_position', function (pseudo, lat, lon) {
+        console.log("info reçu : " + pseudo + " " + " " + lat + lon)
+
+        var objpos = {
+            pseudo: pseudo,
+            lat: lat,
+            lon: lon
+        };
+        positions.push(objpos);
+        for (var i = 0; i < positions.length; i++) {
+            console.log("Pseudo connecté : " + positions[i].pseudo);
+        }
+
+        socket.broadcast.emit('recupererPosition', positions);
+    });
+
+    socket.on('receiveposition', function () {
+        socket.emit('recupererPosition', positions);
+    });
     ///////////////////
     socket.on('invitation', function (data) {
 

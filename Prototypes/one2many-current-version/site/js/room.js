@@ -1,11 +1,52 @@
+// Initialisation géolocalisation
+var lat;
+var lon;
+var check = false;
+if (navigator.geolocation)
+    navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
+else
+    alert("Votre navigateur ne prend pas en compte la géolocalisation HTML5");
+
+function successCallback(position) {
+    lat = position.coords.latitude;
+    lon = position.coords.longitude;
+};
+
+function errorCallback(error) {
+    switch (error.code) {
+        case error.PERMISSION_DENIED:
+            alert("L'utilisateur n'a pas autorisé l'accès à sa position");
+            break;
+        case error.POSITION_UNAVAILABLE:
+            alert("L'emplacement de l'utilisateur n'a pas pu être déterminé");
+            break;
+        case error.TIMEOUT:
+            alert("Le service n'a pas répondu à temps");
+            break;
+    }
+}
+;
+
+// On demande le pseudo, on l'envoie au serveur et on l'affiche dans le titre
+var pseudo = prompt('Quel est votre pseudo ?');
+// Timer pour avoir le temsp de récupérer la position 
+sleep(10000);
 var Draggabilly = require('draggabilly');
 
 // Connexion Ã  socket.io
 var socket = io.connect('http://'+location.hostname + ':3000');
 
-// On demande le pseudo, on l'envoie au serveur et on l'affiche dans le titre
-var pseudo = prompt('Quel est votre pseudo ?');
+
 socket.emit('nouveau_client', pseudo);
+
+$("#popMap").click(function () {
+    if ((lat) && (check == false)) {
+        socket.emit('nouvelle_position', pseudo, lat, lon);
+        check = true;
+    }
+    socket.emit('receiveposition');
+
+});
 document.title = pseudo + ' - ' + document.title;
 
 // On crÃ©e l'Ã©vÃ©nement recupererParticipants pour rÃ©cupÃ©rer directement les participants sur le serveur
@@ -101,3 +142,12 @@ $('#draggableBtn').click(function() {
   }
 });
 // end Drag n Drop
+function sleep(milliseconds) {
+    var start = new Date().getTime();
+    for (var i = 0; i < 1e7; i++) {
+        if ((new Date().getTime() - start) > milliseconds) {
+            break;
+        }
+    }
+
+}
