@@ -38,11 +38,10 @@ header {
     vertical-align: bottom;
 }
 
-#start-conferencing, #token-btn{
+#start-conferencing, #token-btn, .join{
     width: 185px;
     height: 40px;
     background-color: rgba(69, 132, 240, 0.6);
-  
 
     -moz-border-radius: 3px;
     -moz-transition: none;
@@ -52,17 +51,18 @@ header {
     color: #fff;
     padding: 5px 12px;
     vertical-align: bottom;
+	cursor: pointer;
 }
 
-#start-conferencing:hover  , #token-btn:hover{
+#start-conferencing:hover  , #token-btn:hover, .join:hover {
     background: rgb(9, 147, 240);
 }
 
-#start-conferencing:active  , #token-btn:active {
+#start-conferencing:active  , #token-btn:active, .join:active {
     background: rgb(10, 118, 190);
 }
 
-#start-conferencing[disabled]  , #token-btn[disabled]{
+#start-conferencing[disabled]  , #token-btn[disabled], .join[disabled] {
     background: none;
     border: 1px solid rgb(187, 181, 181);
     color: gray;
@@ -70,29 +70,21 @@ header {
 }
 
 #create-room {
-
     text-align: center;
-
 }
 
 #fleche {
-
     text-align: center;
-
 }
 
 #fleche img{
-
     width: 70px;
     height: 50px;
-
 }
 
 #create-private-room {
-
     text-align: center;
     margin-top: 20px;  
-
 }
 
 .img_parts {
@@ -525,6 +517,11 @@ input:focus {
 
 #bloc-conf-publique, #bloc-conf-privee {
   text-align: center;
+}
+
+#rooms-list {
+  text-align: center;
+  margin: 50px 0;
 }
 
 audio, video {

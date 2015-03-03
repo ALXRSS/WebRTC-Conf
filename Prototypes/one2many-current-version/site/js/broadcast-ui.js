@@ -36,18 +36,21 @@ var config = {
 
         if (typeof roomsList === 'undefined') roomsList = document.body;
 
-        var tr = document.createElement('tr');
-        tr.setAttribute('id', room.broadcaster);
-        tr.innerHTML = '<td>' + room.roomName + '</td>' +
-            '<td><button class="join" id="' + room.roomToken + '">Join Room</button></td>';
-        roomsList.insertBefore(tr, roomsList.firstChild);
+        var div = document.createElement('div');
+        div.setAttribute('id', room.broadcaster);
+        div.innerHTML = '<h3>Rejoindre une conf&eacute;rence</h3>' +
+						'<div>' +
+							'<button class="join" id="' + room.roomToken + '">' + room.roomName + '</button>' +
+						'</div>';
+        roomsList.insertBefore(div, roomsList.firstChild);
 
-        tr.onclick = function() {
-            tr = this;
+        div.onclick = function() {
+            div = this;
+
             captureUserMedia(function() {
                 broadcastUI.joinRoom({
-                    roomToken: tr.querySelector('.join').id,
-                    joinUser: tr.id
+                    roomToken: div.querySelector('.join').id,
+                    joinUser: div.id
                 });
             });
             hideUnnecessaryStuff();
