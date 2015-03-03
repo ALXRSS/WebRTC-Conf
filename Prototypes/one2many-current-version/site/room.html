@@ -52,17 +52,32 @@
                     </div>
                 </div>
 
-                <article>
-                    <div id="bloc-conf-publique" class="visible">
-                        <input type="text" id="conference-name" placeholder="Broadcast Name">
-                        <button id="start-conferencing">New Broadcast</button>
-                    </div>
+			<article>
 
-                    <div id="rooms-list" class="visible"></div>
+				<div id="create-room" class="visible">
+					<h3>Cr&eacute;er une Room</h3>
+				</div>
 
-                    <div id="participants"></div>
+				<div id="bloc-conf-publique" class="visible">
+					<input type="text" id="conference-name" placeholder="Nom de la conf&eacute;rence">
+					<button id="start-conferencing">Nouvelle conf&eacute;rence</button>
+				</div>
+				
+				<div id="rooms-list" class="visible"></div>
 
-                </article>
+				<div id="create-private-room" class="visible">
+					<h3>Cr&eacute;er une Room priv&eacute;e</h3>
+				</div>
+
+				<div id="bloc-conf-privee" class="visible">
+					<h2>
+						<a href="" target="_blank" title="Ouvrir ce lien dans un nouvel onglet. La conf&eacute;rence sera priv&eacute;e!" id="token-btn"><code><strong id="unique-token">#123456789</strong></code></a>
+					</h2>
+				</div>
+
+				<div id="participants"></div>
+				
+			</article>
 
             </div>
 
