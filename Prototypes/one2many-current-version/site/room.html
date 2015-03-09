@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Prototype WebRTC-Conf</title>
         <link rel="stylesheet" href="../../css/room.css" />
         <link rel="stylesheet" href="../../js/tree/css/basic.css" />
@@ -28,6 +29,7 @@
                 <h1 id="titre">WebRTC-Conf  <img src="../../img/webrtc_logo.png" alt="webrtc" /></h1>
                 <img id="popMap" class="draggableBtn" alt="drag" src="../../img/maps.png" />
                 <img id="invitation" class="invitation" alt="invite" src="../../img/addBtn.png" />
+                <img id="popsend" class="draggableBtn" alt="drag" src="../../img/send.png" />
                 <div id="parts">
                     <img class="img_parts" src="../../img/peopleBtn.png" alt="parts" />
                     <fieldset id="zone_parts">
@@ -52,32 +54,32 @@
                     </div>
                 </div>
 
-			<article>
+                <article>
 
-				<div id="create-room" class="visible">
-					<h3>Cr&eacute;er une Room</h3>
-				</div>
+                    <div id="create-room" class="visible">
+                        <h3>Cr&eacute;er une Room</h3>
+                    </div>
 
-				<div id="bloc-conf-publique" class="visible">
-					<input type="text" id="conference-name" placeholder="Nom de la conf&eacute;rence">
-					<button id="start-conferencing">Nouvelle conf&eacute;rence</button>
-				</div>
-				
-				<div id="rooms-list" class="visible"></div>
+                    <div id="bloc-conf-publique" class="visible">
+                        <input type="text" id="conference-name" placeholder="Nom de la conf&eacute;rence">
+                        <button id="start-conferencing">Nouvelle conf&eacute;rence</button>
+                    </div>
 
-				<div id="create-private-room" class="visible">
-					<h3>Cr&eacute;er une Room priv&eacute;e</h3>
-				</div>
+                    <div id="rooms-list" class="visible"></div>
 
-				<div id="bloc-conf-privee" class="visible">
-					<h2>
-						<a href="" target="_blank" title="Ouvrir ce lien dans un nouvel onglet. La conf&eacute;rence sera priv&eacute;e!" id="token-btn"><code><strong id="unique-token">#123456789</strong></code></a>
-					</h2>
-				</div>
+                    <div id="create-private-room" class="visible">
+                        <h3>Cr&eacute;er une Room priv&eacute;e</h3>
+                    </div>
 
-				<div id="participants"></div>
-				
-			</article>
+                    <div id="bloc-conf-privee" class="visible">
+                        <h2>
+                            <a href="" target="_blank" title="Ouvrir ce lien dans un nouvel onglet. La conf&eacute;rence sera priv&eacute;e!" id="token-btn"><code><strong id="unique-token">#123456789</strong></code></a>
+                        </h2>
+                    </div>
+
+                    <div id="participants"></div>
+
+                </article>
 
             </div>
 
@@ -101,7 +103,23 @@
             <div id="mapcanvas" style="width:200px;height:200px;">
                 <div id="carte" style="width:100%; height:100%"></div>
             </div>
+            <div id="download" style="width:200px;height:200px;">
+                <div id="downloadinfo"></div>
 
+            </div>
+
+            <div id="senddownload" style="width:200px;height:200px;">
+                <div id="sendinfo"> </div>
+                <p>Envoyer à : </p>
+                <div id = "combo">
+                    <select id="combo_users">
+                    </select>
+                </div>
+                <p>Fichiers : </p>
+                <input id="file" type="file" />
+                <p>Progression de l'envoi : </p>
+                <div id="progressbar"></div>
+            </div>
         </div>
 
         <script src="../../js/firebase.js"></script>
@@ -113,6 +131,7 @@
         <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
         <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/jquery-ui.min.js"></script>
         <script src="/socket.io/socket.io.js"></script>
+        <script src="/socket.io-stream/socket.io-stream.js"></script>
         <script src="../../js/room.js"></script>
         <script src="../../js/explorer.js"></script>
         <script src="../../js/classie.js"></script>

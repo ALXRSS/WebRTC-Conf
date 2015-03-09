@@ -13,6 +13,7 @@ var nodemailer = require('nodemailer');
 var chokidar = require('chokidar');
 var done = false;
 var sharedFolder = "./shared";
+var sendFolder = "./sendfolder";
 
 // Liste des participants
 var participants = [];
@@ -20,6 +21,8 @@ var participants = [];
 var positions = [];
 // create the switchboard
 var switchboard = require('rtc-switchboard')(server);
+// Correspondance id/pseudo pour envoyer aux bons clients lors de l'envoi de fichiers 
+var pseudosock = [];
 
 app.get('/', function (req, res) {
     res.redirect(req.uri.pathname + 'room/main/');
@@ -51,6 +54,9 @@ var transporter = nodemailer.createTransport({
     }
 });
 
+var ss = require('socket.io-stream');
+ss.forceBase64 = true;
+
 ///////////////////////////////////
 
 // on utilise socket.io pour cr√©er deux variables de session √† transf√©rer aux clients
@@ -58,6 +64,12 @@ io.sockets.on('connection', function (socket, pseudo) {
 
     // D√®s qu'on nous donne un pseudo, on le stocke en variable de session et on informe les autres personnes
     socket.on('nouveau_client', function (pseudo) {
+        // Ajoute la correspondance idsocket/pseudo
+        var objsock = {
+            id: socket.id,
+            pseudo: pseudo
+        };
+        pseudosock.push(objsock);
         pseudo = ent.encode(pseudo);
         socket.set('pseudo', pseudo);
         socket.broadcast.emit('nouveau_client', pseudo);
@@ -111,12 +123,12 @@ io.sockets.on('connection', function (socket, pseudo) {
         // }
     });
 
-    // Vider l'objet √† la d√©connexion
+    // Vider l'objet ‡† la d√©connexion
     socket.on('disconnect', function () {
         socket.get('pseudo', function (error, pseudo) {
             socket.broadcast.emit('disconnect', pseudo);
             socket.broadcast.emit('supprimerPosition', pseudo);
-            // mettre √† jour la liste des participants et la renvoyer aux autres clients
+            // mettre ‡† jour la liste des participants et la renvoyer aux autres clients
             var index = participants.indexOf(pseudo);
             participants.splice(index, 1);
             socket.broadcast.emit('recupererParticipants', participants);
@@ -179,6 +191,25 @@ io.sockets.on('connection', function (socket, pseudo) {
             }
         });
     });
+    // Reception du fichiers pour la fonctionnalitÈ d'envoi de fichiers.
+    ss(socket).on('profile-image', function (stream, data, pseudoSend) {
+
+        var filename = path.basename(data.name);
+        stream.pipe(fs.createWriteStream(sendFolder + '/' + filename));
+    });
+    // Envoi du fichiers ‡ la personne demandÈ
+    socket.on('validefile', function (filename, pseudoSend, pseudoReceive) {
+        // Recherche par pseudo du socket Id d'un utilisateur afin de pouvoir lui transmettre les donnnÈes
+        var tempusr = null;
+        for (var i = 0; i < pseudosock.length; i++) {
+            console.log("Valeur :" + pseudosock[i].pseudo);
+            if (pseudosock[i].pseudo == pseudoReceive) {
+                tempusr = pseudosock[i].id;
+            }
+
+        }
+        io.sockets.socket(tempusr).emit('receivefile', filename, pseudoSend);
+    });
 
     /////////////////
 
@@ -208,6 +239,26 @@ app.get('/download/:fileName', function (req, res) {
     });
 
 });
+// Demande du fichier du serveur si l'utilisateur accepte la rÈception
+app.get('/send/:fileName', function (req, res) {
+    var file = sendFolder + '/' + req.params.fileName;
+    res.download(file, function (err) {
+        if (err) {
+            console.log("error occured");
+            fs.unlinkSync(file);
+        } else {
+            console.log("ok!");
+            //Suppression du fichers sur le serveur
+            fs.unlinkSync(file);
+        }
+    });
+
+});
+// Suppression du fichiers sur le serveur si l'utilisateur n'accepte pas la rÈception.
+app.get('/delete/:fileName', function (req, res) {
+    var file = sendFolder + '/' + req.params.fileName;
+    fs.unlinkSync(file);
+});
 
 /*Configure the multer.*/
 
@@ -236,6 +287,7 @@ app.post('/upload', function (req, res) {
         res.end("File uploaded.");
     }
 });
+
 ///////////////// END SHARED FOLDER /////////////////
 
 // start the server
