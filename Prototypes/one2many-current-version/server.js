@@ -200,6 +200,7 @@ io.sockets.on('connection', function (socket, pseudo) {
     // Envoi du fichiers à la personne demandé
     socket.on('validefile', function (filename, pseudoSend, pseudoReceive) {
         // Recherche par pseudo du socket Id d'un utilisateur afin de pouvoir lui transmettre les donnnées
+		
         var tempusr = null;
         for (var i = 0; i < pseudosock.length; i++) {
             console.log("Valeur :" + pseudosock[i].pseudo);

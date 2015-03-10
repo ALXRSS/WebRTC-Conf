@@ -64,7 +64,7 @@ $(function () {
 
     $('#file').change(function (e) {
         var fullPath = document.getElementById('file').value;
-         $('combo_users').disabled =true; 
+        $('combo_users').disabled = true;
         var filename;
         if (fullPath) {
             var startIndex = (fullPath.indexOf('\\') >= 0 ? fullPath.lastIndexOf('\\') : fullPath.lastIndexOf('/'));
@@ -104,18 +104,20 @@ $(function () {
 
 // Procédure lors de la réception d'un fichier.
 socket.on('receivefile', function (file, pseudo) {
-    $("#download").dialog({title: pseudo + " veut vous envoyer un fichier", height: 250, width: 450, open: function (event, ui) {
+    $("#download").dialog({title: pseudo + " veut vous envoyer un fichier", height: 200, width: 450, open: function (event, ui) {
             $(this).closest('.ui-dialog').find('.ui-dialog-titlebar-close').hide();
         }, modal: true});
     document.getElementById('downloadinfo').innerHTML = "<p>" + file + "</p>"
     document.getElementById('downloadinfo').innerHTML = document.getElementById('downloadinfo').innerHTML + "<center>";
-    document.getElementById('downloadinfo').innerHTML = document.getElementById('downloadinfo').innerHTML + "<input type=button id=\"accept\" onClick=\"location.href='/send/" + file + "\'\"   value=\' Accepter\'>" + " " + "<input type=button onClick=\"location.href='/delete/" + file + "\'\" id= \"decline\" value=\' Refuser\'>";
+    document.getElementById('downloadinfo').innerHTML = document.getElementById('downloadinfo').innerHTML + "<img src=\"../../img/valid.png\" border=\"0\">" + "<a href=\"#\" id=\"accept\" onClick=\"window.open('/send/" + file + "', '_blank')\">  Accepter</a>" + " " + "<img src=\"../../img/cancel.gif\" border=\"0\">" + "<a href=\"#\" id=\"decline\" \">Refuser</a>";
     document.getElementById('downloadinfo').innerHTML = document.getElementById('downloadinfo').innerHTML + "</center>";
     $("#accept").click(function () {
         $("#download").dialog('close');
     })
     $("#decline").click(function () {
         $("#download").dialog('close');
+        var Mypopup = window.open('/delete/'+ file, '_blank');
+        Mypopup.close();
     })
 });
 
