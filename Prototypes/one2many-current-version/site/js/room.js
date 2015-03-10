@@ -4,7 +4,7 @@ var check = false;
 
 // Initialisation des modal Jquery UI
 $(document).ready(function () {
-    $("#download").dialog({title: "Vous a envoyé un fichier", height: 200, width: 400, modal: true});
+    $("#download").dialog({title: "Vous a envoy\351 un fichier", height: 200, width: 400, modal: true});
 
     $("#download").dialog('close');
 
@@ -23,7 +23,7 @@ $(document).ready(function () {
 if (navigator.geolocation)
     navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
 else
-    alert("Votre navigateur ne prend pas en compte la géolocalisation HTML5");
+    alert("Votre navigateur ne prend pas en compte la g\351olocalisation HTML5");
 
 function successCallback(position) {
     lat = position.coords.latitude;
@@ -34,13 +34,13 @@ function successCallback(position) {
 function errorCallback(error) {
     switch (error.code) {
         case error.PERMISSION_DENIED:
-            alert("L'utilisateur n'a pas autorisé l'accés à sa position");
+            alert("L'utilisateur n'a pas autoris\351 l'acc\350s \340 sa position");
             break;
         case error.POSITION_UNAVAILABLE:
-            alert("L'emplacement de l'utilisateur n'a pas pu être détérminé");
+            alert("L'emplacement de l'utilisateur n'a pas pu \352tre d\351termin\351");
             break;
         case error.TIMEOUT:
-            alert("Le service n'a pas répondu à temps");
+            alert("Le service n'a pas r\351pondu \340 temps");
             break;
     }
 }
@@ -48,11 +48,11 @@ function errorCallback(error) {
 
 // On demande le pseudo, on l'envoie au serveur et on l'affiche dans le titre
 var pseudo = prompt('Quel est votre pseudo ?');
-// Timer pour avoir le temsp de récupérer la position 
+// Timer pour avoir le temsp de rÃ©cupÃ©rer la position 
 sleep(10000);
 var Draggabilly = require('draggabilly');
 
-// Connexion à socket.io
+// Connexion Ã Â socket.io
 var socket = io.connect();
 var ss = require('socket.io-stream');
 ss.forceBase64 = true;
@@ -102,7 +102,7 @@ $(function () {
     });
 });
 
-// Procédure lors de la réception d'un fichier.
+// ProcÃ©dure lors de la rÃ©ception d'un fichier.
 socket.on('receivefile', function (file, pseudo) {
     $("#download").dialog({title: pseudo + " veut vous envoyer un fichier", height: 200, width: 450, open: function (event, ui) {
             $(this).closest('.ui-dialog').find('.ui-dialog-titlebar-close').hide();
@@ -133,9 +133,9 @@ $("#popMap").click(function () {
 });
 document.title = pseudo + ' - ' + document.title;
 
-// On créer l'évenement recupererParticipants pour récupérer directement les participants sur le serveur
+// On crÃ©er l'Ã©venement recupererParticipants pour rÃ©cupÃ©rer directement les participants sur le serveur
 socket.on('recupererParticipants', function (participants) {
-    //réinitialisation de la liste des participants au niveau graphique lors des éventuelles maj de cette dernière
+    //rÃ©initialisation de la liste des participants au niveau graphique lors des Ã©ventuelles maj de cette derniÃ¨re
     $('#list_parts').children('li').remove();
     $('#combo_users').children('option').remove();
     // participants est le tableau contenant tous les participants qui ont se sont inscrit sur le serveur
@@ -145,7 +145,7 @@ socket.on('recupererParticipants', function (participants) {
     }
 });
 
-// Quand on reçoit un message, on l'insèrre dans la page
+// Quand on reÃ§oit un message, on l'insÃ¨rre dans la page
 socket.on('message', function (data) {
     insereMessage(data.pseudo, data.message);
 })
@@ -189,7 +189,7 @@ function insereMyMessage(pseudo, message) {
     $('#list_chat').prepend('<li class="block-envoye"> <div class="pseudo-envoye">' + pseudo + '</div> <div class="message-envoye">' + message + '</div></li>');
 }
 
-// Quand un client se déconnecte, on affiche l'information
+// Quand un client se dÃ©connecte, on affiche l'information
 socket.on('disconnect', function (pseudo) {
     $('#list_chat').prepend('<li><em>' + pseudo + ' a quitt&eacute; la conversation !</em></li>');
     //$('#list_parts>li').remove( ":contains('" + pseudo +"')" );
