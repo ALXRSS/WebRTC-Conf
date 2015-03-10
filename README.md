@@ -48,7 +48,7 @@
 * _module utile : draggabilly_
  
 ### Géolocalisation
-* Géolocaliser les participants sur un carte
+* Géolocaliser les participants sur une carte
 
 ### Accessibilité
 * via le navigateur de chacun (Chrome, Firefox en priorité)
