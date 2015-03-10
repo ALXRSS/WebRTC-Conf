@@ -7,8 +7,10 @@
 * Langage JavaScript
 
 ### Vidéo conférence
-
-* échange audio et vidéo entre plusieurs utilisateurs
+* échanges de type 1 tiers - N tiers
+* conversations audio et vidéo entre plusieurs utilisateurs
+* gestion de plusieurs vidéo-conférences
+* création de conférences privées
 * _module utile : rtc-quickconnect, afin de mettre en place un échange vidéo simple et rapide_
 
 ### Chat en temps réel
@@ -17,22 +19,24 @@
 * indiquer l'émetteur de chaque message
 * message de connexion et de déconnexion
 * liste des participants, mise à jour lors d'une connexion ou déconnexion
+* enregistrement des conversations
 * _module utile : socket.io_
 
 ### Invitation
 * inviter des personnes à rejoindre la vidéo conférence
 * envoi d'un mail avec email du destinataire et pseudo de l'émetteur
 * le destinataire reçoit l'URL de la room à rejoindre
-* QR Code pour rejoidre la conversation via smartphone --> a faire ?
+* QR Code pour rejoidre la conversation via smartphone
 * _module utile : nodemailer_
   
 ### Transfert de fichier
-* échange de fichiers entre utilisateurs (fichiers, vidéos, images) --> a faire
+* Echange de fichier d'une personne à une autre
+* Echange de fichier au travers d'un dossier partagé
   
 ### Design
 * Améliorer le design de base
 * Intégrer une page d'accueil
-* responsive --> a faire
+* responsive
 
 ### Système de notification
 * Notification lors de la réception d'un message
@@ -42,7 +46,10 @@
 * Fonction Drag & Drop sur les vidéos distantes
 * active lors du clic sur le bouton associé
 * _module utile : draggabilly_
-  
+ 
+### Géolocalisation
+* Géolocaliser les participants sur un carte
+
 ### Accessibilité
 * via le navigateur de chacun (Chrome, Firefox en priorité)
 * fonctionnel en ouvrant plusieurs onglets sur la même machine
