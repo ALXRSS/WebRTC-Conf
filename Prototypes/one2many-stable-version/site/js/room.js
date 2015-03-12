@@ -1,7 +1,7 @@
 var Draggabilly = require('draggabilly');
 
 // Connexion à socket.io
-var socket = io.connect('http://'+location.hostname + ':3000');
+var socket = io.connect();
 
 // On demande le pseudo, on l'envoie au serveur et on l'affiche dans le titre
 var pseudo = prompt('Quel est votre pseudo ?');
