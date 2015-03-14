@@ -66,8 +66,6 @@ while (pseudo == '' || pseudo == null) {
 	// Ou : generer un pseudo par defaut
 	pseudo = 'Anonyme'+makeRandomId();
 }
-// Timer pour avoir le temsp de récupérer la position 
-sleep(10000);
 var Draggabilly = require('draggabilly');
 
 // Connexion à socket.io
@@ -248,13 +246,3 @@ $('#draggableBtn').click(function () {
         });
     }
 });
-// end Drag n Drop
-function sleep(milliseconds) {
-    var start = new Date().getTime();
-    for (var i = 0; i < 1e7; i++) {
-        if ((new Date().getTime() - start) > milliseconds) {
-            break;
-        }
-    }
-
-}
