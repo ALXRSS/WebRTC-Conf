@@ -20,14 +20,12 @@ $(document).ready(function () {
     })
 });
 
-if (navigator.geolocation)
-    navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
-else
-    alert("Votre navigateur ne prend pas en compte la g\351olocalisation HTML5");
+
 
 function successCallback(position) {
     lat = position.coords.latitude;
     lon = position.coords.longitude;
+	 socket.emit('nouvelle_position', pseudo, lat, lon);
 }
 ;
 
@@ -141,15 +139,16 @@ socket.on('receivefile', function (file, pseudo) {
     })
 });
 
-
-
 $("#popMap").click(function () {
-    if ((lat) && (check == false)) {
-        socket.emit('nouvelle_position', pseudo, lat, lon);
+    if (check == false) {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
+        }
+        else
+            alert("Votre navigateur ne prend pas en compte la géolocalisation HTML5");
+        
         check = true;
     }
-    socket.emit('receiveposition');
-
 });
 document.title = pseudo + ' - ' + document.title;
 
@@ -161,6 +160,7 @@ socket.on('recupererParticipants', function (participants) {
     // participants est le tableau contenant tous les participants qui ont se sont inscrit sur le serveur
     for (var i = 0; i < participants.length; i++) {
         $('#list_parts').prepend('<li><em>' + participants[i] + '</em></li>');
+		if(participants[i] != pseudo)
         $("#combo_users").prepend("<option>" + participants[i] + "</option>");
     }
 });
