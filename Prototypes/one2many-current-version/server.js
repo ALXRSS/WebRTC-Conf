@@ -163,7 +163,7 @@ io.sockets.on('connection', function (socket, pseudo) {
         for (var i = 0; i < positions.length; i++) {
             console.log("Pseudo connecté : " + positions[i].pseudo);
         }
-
+		socket.emit('recupererPosition', positions);
         socket.broadcast.emit('recupererPosition', positions);
     });
 
