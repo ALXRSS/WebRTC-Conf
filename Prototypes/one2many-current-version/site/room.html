@@ -10,6 +10,22 @@
         <link type="text/css" rel="stylesheet" href="../../css/pure-drawer.css">
         <link type="text/css" rel="stylesheet" href="../../scss/pure-drawer.scss">
         <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/themes/smoothness/jquery-ui.css" />
+        <script>
+            function dragOverHandler(event) {
+                //console.log("Drag over a droppable zone");
+                // Do not propagate the event
+                event.stopPropagation();
+                // Prevent default behavior, in particular when we drop images or links
+                event.preventDefault();
+            }
+
+            function dragEnterHandler(event) {
+                console.log("Drag enter");
+                // Show some visual feedback
+                event.target.classList.add('draggedOver');
+            }
+        </script>
+
     </head>
     <body>
 
@@ -89,12 +105,12 @@
                 <label class="pure-toggle-label" for="pure-toggle-right" data-toggle-label="right"> 
                     <span class="pure-toggle-icon"></span> 
                 </label> 
-
                 <div class="pure-drawer" data-position="right"> 
                     <!-- Dropzone -->
-                    <form action="/upload" id="my-awesome-dropzone" class="dropzone" ></form>
-                    <!-- Explorer -->
-                    <div id="tree" ></div>
+                    <form action="/upload" id="my-awesome-dropzone" class="dropzone" ondragover="dragOverHandler(event)" ondragenter="dragEnterHandler(event)">
+                        <!-- Explorer -->
+                        <div id="tree" ></div>
+                    </form>
                     <div id="previewZone" style="display:none"></div>
                 </div> 
                 <!--            <div class="pure-pusher-container"> <div class="pure-pusher"> Put your site content here </div> </div>-->
