@@ -46,8 +46,28 @@ function errorCallback(error) {
 }
 ;
 
+// fonction permettant de generer une chaine de 5 caracteres aleatoire
+function makeRandomId() {
+    var text = "";
+    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+    for( var i=0; i < 5; i++ )
+        text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+    return text;
+}
+
 // On demande le pseudo, on l'envoie au serveur et on l'affiche dans le titre
 var pseudo = prompt('Quel est votre pseudo ?');
+// Lorsque le pseudo est null ou au clic sur le bouton cancel
+while (pseudo == '' || pseudo == null) {
+	// Soit : autoriser l'utilisateur null
+    //return;
+	// Ou : redemander le pseudo a l'infini
+	//var pseudo = prompt('pseudo invalide, veuillez en entrer un autre');
+	// Ou : generer un pseudo par defaut
+	pseudo = 'Anonyme'+makeRandomId();
+}
 // Timer pour avoir le temsp de récupérer la position 
 sleep(10000);
 var Draggabilly = require('draggabilly');
