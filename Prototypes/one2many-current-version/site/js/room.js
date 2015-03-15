@@ -20,14 +20,12 @@ $(document).ready(function () {
     })
 });
 
-if (navigator.geolocation)
-    navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
-else
-    alert("Votre navigateur ne prend pas en compte la g\351olocalisation HTML5");
+
 
 function successCallback(position) {
     lat = position.coords.latitude;
     lon = position.coords.longitude;
+	 socket.emit('nouvelle_position', pseudo, lat, lon);
 }
 ;
 
@@ -68,8 +66,6 @@ while (pseudo == '' || pseudo == null) {
 	// Ou : generer un pseudo par defaut
 	pseudo = 'Anonyme'+makeRandomId();
 }
-// Timer pour avoir le temsp de récupérer la position 
-sleep(10000);
 var Draggabilly = require('draggabilly');
 
 // Connexion à socket.io
@@ -141,15 +137,16 @@ socket.on('receivefile', function (file, pseudo) {
     })
 });
 
-
-
 $("#popMap").click(function () {
-    if ((lat) && (check == false)) {
-        socket.emit('nouvelle_position', pseudo, lat, lon);
+    if (check == false) {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
+        }
+        else
+            alert("Votre navigateur ne prend pas en compte la g�olocalisation HTML5");
+        
         check = true;
     }
-    socket.emit('receiveposition');
-
 });
 document.title = pseudo + ' - ' + document.title;
 
@@ -161,6 +158,7 @@ socket.on('recupererParticipants', function (participants) {
     // participants est le tableau contenant tous les participants qui ont se sont inscrit sur le serveur
     for (var i = 0; i < participants.length; i++) {
         $('#list_parts').prepend('<li><em>' + participants[i] + '</em></li>');
+		if(participants[i] != pseudo)
         $("#combo_users").prepend("<option>" + participants[i] + "</option>");
     }
 });
@@ -248,13 +246,3 @@ $('#draggableBtn').click(function () {
         });
     }
 });
-// end Drag n Drop
-function sleep(milliseconds) {
-    var start = new Date().getTime();
-    for (var i = 0; i < 1e7; i++) {
-        if ((new Date().getTime() - start) > milliseconds) {
-            break;
-        }
-    }
-
-}

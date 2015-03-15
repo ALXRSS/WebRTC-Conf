@@ -17,21 +17,6 @@ $(document).ready(function () {
     $("#mapcanvas").dialog('close');
 });
 
-// Initialisation de la map à la connexion du client afin de recevoir toutes les positions des utilisateurs connecté précédement
-socket.on('initmap', function (postab) {
-    for (var i = 0; i < postab.length; i++) {
-        var marqueur = new google.maps.Marker({
-            position: new google.maps.LatLng(postab[i].lat, postab[i].lon),
-            map: maCarte,
-            icon: myMarkerImage,
-            title: postab[i].pseudo
-
-        });
-        marqueurs.push(marqueur);
-        utilisateurs.push(postab[i].pseudo);
-    }
-});
-
 // Supprime les utilisateurs déconnecté sur la map 
 socket.on('supprimerPosition', function (pseudo) {
     var pos = null;
@@ -41,48 +26,61 @@ socket.on('supprimerPosition', function (pseudo) {
         }
     }
     if (pos) {
+
         marqueurs[pos].setMap(null);
         marqueurs.splice(pos, 1);
         utilisateurs.splice(pos, 1);
+
+        for (var i = 0; i < postab.length; i++) {
+            var marqueur = new google.maps.Marker({
+                position: new google.maps.LatLng(postab[i].lat, postab[i].lon),
+                map: maCarte,
+                icon: myMarkerImage,
+                title: postab[i].pseudo
+            });
+
+
+            if ((marqueurs[i] == null) && (utilisateurs[i] == null)) {
+                marqueurs.push(marqueur);
+                utilisateurs.push(postab[i].pseudo);
+            }
+        }
     }
+    google.maps.event.trigger(maCarte, 'resize');
 });
 
 //Méthode executer pour rafraichir les clients en cas de nouveaux clients ou de clients qui se deconnectent
 socket.on('recupererPosition', function (postab) {
-
-
     for (var i = 0; i < postab.length; i++) {
         var marqueur = new google.maps.Marker({
             position: new google.maps.LatLng(postab[i].lat, postab[i].lon),
             map: maCarte,
             icon: myMarkerImage,
             title: postab[i].pseudo
-
         });
+
+
         if ((marqueurs[i] == null) && (utilisateurs[i] == null)) {
             marqueurs.push(marqueur);
             utilisateurs.push(postab[i].pseudo);
+            google.maps.event.addListener(marqueurs[i], 'click', function () {
+                maCarte.panTo(this.getPosition());
+                maCarte.setZoom(9);
+            }); 
+
         }
     }
-
+    google.maps.event.trigger(maCarte, 'resize');
 });
 
 // Initialisation de la map
 function initialisation() {
-    var centreCarte = new google.maps.LatLng(48.856614, 2.3522219000000177);
+    var centreCarte = new google.maps.LatLng(59.085739, -17.29248);
     var optionsCarte = {
         zoom: 4,
         center: centreCarte
     }
     maCarte = new google.maps.Map(document.getElementById("carte"), optionsCarte);
-    if (lat != 0) {
-        var marqueur = new google.maps.Marker({
-            position: new google.maps.LatLng(lat, lon),
-            map: maCarte,
-            icon: myMarkerImage,
-            title: "Ma position"
-        });
-    }
 }
 google.maps.event.addDomListener(window, 'load', initialisation)
 
