@@ -49,7 +49,7 @@ function makeRandomId() {
     var text = "";
     var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 
-    for( var i=0; i < 5; i++ )
+    for (var i = 0; i < 5; i++)
         text += possible.charAt(Math.floor(Math.random() * possible.length));
 
     return text;
@@ -59,12 +59,12 @@ function makeRandomId() {
 var pseudo = prompt('Quel est votre pseudo ?');
 // Lorsque le pseudo est null ou au clic sur le bouton cancel
 while (pseudo == '' || pseudo == null) {
-	// Soit : autoriser l'utilisateur null
+    // Soit : autoriser l'utilisateur null
     //return;
-	// Ou : redemander le pseudo a l'infini
-	//var pseudo = prompt('pseudo invalide, veuillez en entrer un autre');
-	// Ou : generer un pseudo par defaut
-	pseudo = 'Anonyme'+makeRandomId();
+    // Ou : redemander le pseudo a l'infini
+    //var pseudo = prompt('pseudo invalide, veuillez en entrer un autre');
+    // Ou : generer un pseudo par defaut
+    pseudo = 'Anonyme' + makeRandomId();
 }
 var Draggabilly = require('draggabilly');
 
@@ -132,7 +132,7 @@ socket.on('receivefile', function (file, pseudo) {
     })
     $("#decline").click(function () {
         $("#download").dialog('close');
-        var Mypopup = window.open('/delete/'+ file, '_blank');
+        var Mypopup = window.open('/delete/' + file, '_blank');
         Mypopup.close();
     })
 });
