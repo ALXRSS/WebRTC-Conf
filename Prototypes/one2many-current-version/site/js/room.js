@@ -220,29 +220,62 @@ $('#invitation').click(function () {
 });
 
 // start Drag n Drop
+var booleanDraggable = false;
+var draggie = null;
+
 $('#draggableBtn').click(function () {
-    $('#participants').children('video').addClass('draggable');
-    var element = document.querySelectorAll('.draggable');
+	
+	if (booleanDraggable == false) {
+	
+		$("#draggableBtn").attr("src", "../../img/stopDragBtn.png");
+		$('#participants').children('video').addClass('draggable');
+		var element = document.querySelectorAll('.draggable');
 
-    var i;
-    for (i = 0; i < element.length; i++) {
+		var i;
+		// parcours de toutes les videos presentes
+		for (i = 0; i < element.length; i++) {
 
-        element[i].style.cursor = "move";
+			element[i].style.cursor = "move";
 
-        var draggie = new Draggabilly(element[i]);
+			// activation du drag n drop sur les videos
+			draggie = new Draggabilly(element[i]);
 
-        function onDragMove(instance, event, pointer) {
-            console.log('dragMove on ' + event.type +
-                    pointer.pageX + ', ' + pointer.pageY +
-                    ' position at ' + instance.position.x + ', ' + instance.position.y);
-        }
-        // bind event listener
-        draggie.on('dragMove', onDragMove);
-        // un-bind event listener
-        draggie.off('dragMove', onDragMove);
-        // return true to trigger an event listener just once
-        draggie.once('dragMove', function () {
-            console.log('Draggabilly did move, just once');
-        });
-    }
+			function onDragMove(instance, event, pointer) {
+				console.log('dragMove on ' + event.type +
+						pointer.pageX + ', ' + pointer.pageY +
+						' position at ' + instance.position.x + ', ' + instance.position.y);
+			}
+			// bind event listener
+			draggie.on('dragMove', onDragMove);
+			// un-bind event listener
+			draggie.off('dragMove', onDragMove);
+			// return true to trigger an event listener just once
+			draggie.once('dragMove', function () {
+				console.log('Draggabilly did move, just once');
+			});
+		}
+		booleanDraggable = true;
+	}
+	
+	else {
+		booleanDraggable = false;
+		// image par defaut
+		$("#draggableBtn").attr("src", "../../img/dragBtn.png");
+		
+		var element = document.querySelectorAll('.draggable');
+			
+		var i;
+		
+		for (i = 0; i < element.length; i++) {
+			
+			// curseur sur les videos par defaut
+			element[i].style.cursor = "default";
+			
+			// desactiver le drag n drop
+			draggie.disable();
+		}
+		
+		// suppresion de la classe draggable
+		$('#participants').children('video').removeClass('draggable');
+	}
 });
