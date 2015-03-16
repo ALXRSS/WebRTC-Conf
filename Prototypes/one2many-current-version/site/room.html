@@ -85,8 +85,8 @@
             <div class="pure-container" data-effect="pure-effect-slide"> 
                 <input type="checkbox" id="pure-toggle-right" class="pure-toggle" data-toggle="right"> 
 
-                <label class="pure-toggle-label" for="pure-toggle-right" data-toggle-label="right"> 
-                    <span class="pure-toggle-icon"></span> 
+                <label style="visibility: hidden; z-index: 1" class="pure-toggle-label" for="pure-toggle-right" data-toggle-label="right"> 
+                    <img style="visibility: visible;" id="folder" class="folder" alt="folder" title="Dossier partagé" src="../../img/folder.png" data-toggle="right"/>
                 </label> 
                 <div class="pure-drawer" data-position="right"> 
                     <!-- Dropzone -->
@@ -142,6 +142,7 @@
                 $(document).bind('drop dragover', function (e) {
                     e.preventDefault();
                 });
+
             });
         </script>
 
