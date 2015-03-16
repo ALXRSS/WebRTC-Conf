@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>Prototype WebRTC-Conf</title>
+        <link rel="stylesheet" href="../../css/room.css" />
+        <link rel="stylesheet" href="../../js/tree/css/basic.css" />
+        <link type="text/css" rel="stylesheet" href="../../js/tree/css/enhanced.css">
+        <link type="text/css" rel="stylesheet" href="../../css/dropzone.css">
+        <link type="text/css" rel="stylesheet" href="../../css/pure-drawer.css">
+        <link type="text/css" rel="stylesheet" href="../../scss/pure-drawer.scss">
+        <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/themes/smoothness/jquery-ui.css" />
+        <script>
+            function dragOverHandler(event) {
+                //console.log("Drag over a droppable zone");
+                // Do not propagate the event
+                event.stopPropagation();
+                // Prevent default behavior, in particular when we drop images or links
+                event.preventDefault();
+            }
+
+            function dragEnterHandler(event) {
+                console.log("Drag enter");
+                // Show some visual feedback
+                event.target.classList.add('draggedOver');
+            }
+        </script>
+
+    </head>
+    <body>
+
+        <div id="st-container" class="st-container">
+
+            <header>
+                <div class="st-pusher">
+                    <div class="st-content">
+                        <div id="st-trigger-effects">
+                            <button data-effect="st-effect-1" id="contener" class="contener">
+                                <img id="bubble" class="bubble" alt="bubble" title="Messagerie instantanée" src="../../img/bubbleBtn.png" />
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <img id="draggableBtn" class="draggableBtn" alt="drag" title="Déplacer les vidéos" src="../../img/dragBtn.png" />
+                <h1 id="titre">WebRTC-Conf  <img src="../../img/webrtc_logo.png" alt="webrtc" /></h1>
+                <img id="popMap" class="popMapBtn" alt="popMap" title="Afficher la carte" src="../../img/maps.png" />
+                <img id="invitation" class="invitation" alt="invite" title="Inviter un participant" src="../../img/addBtn.png" />
+                <img id="popsend" class="popSendBtn" alt="popSend" title="Envoyer un fichier" src="../../img/send.png" />
+                <div id="parts">
+                    <img class="img_parts" src="../../img/peopleBtn.png" alt="parts" />
+                    <fieldset id="zone_parts">
+                        <legend>Liste des participants</legend>
+                        <ul id="list_parts"></ul>   
+                    </fieldset>
+                </div>
+            </header>
+
+            <div class="layout layout-hz">
+
+                <div class="st-menu st-effect-1" >
+                    <div id="chat" class="chat">
+                        <h4>Messagerie instantan&eacute;e</h4>
+                        <form action="/" method="post" id="formulaire_chat">
+                            <input type="text" name="message" id="message" placeholder="Votre message..." size="30" autofocus />
+                        </form>
+
+                        <div id="zone_chat">
+                            <ul id="list_chat"></ul>
+                        </div>
+                    </div>
+                </div>
+
+                <article>
+
+                    <div id="create-room" class="visible">
+                        <h3>Cr&eacute;er une Room</h3>
+                    </div>
+
+                    <div id="bloc-conf-publique" class="visible">
+                        <input type="text" id="conference-name" placeholder="Nom de la conf&eacute;rence">
+                        <button id="start-conferencing">Nouvelle conf&eacute;rence</button>
+                    </div>
+
+                    <div id="rooms-list" class="visible"></div>
+
+                    <div id="create-private-room" class="visible">
+                        <h3>Cr&eacute;er une Room priv&eacute;e</h3>
+                    </div>
+
+                    <div id="bloc-conf-privee" class="visible">
+                        <h2>
+                            <a href="" target="_blank" title="Ouvrir ce lien dans un nouvel onglet. La conf&eacute;rence sera priv&eacute;e!" id="token-btn"><code><strong id="unique-token">#123456789</strong></code></a>
+                        </h2>
+                    </div>
+
+                    <div id="participants"></div>
+                        <div id="screen-option"></div>
+                </article>
+
+            </div>
+
+            <div class="pure-container" data-effect="pure-effect-slide"> 
+                <input type="checkbox" id="pure-toggle-right" class="pure-toggle" data-toggle="right"> 
+
+                <label class="pure-toggle-label" for="pure-toggle-right" data-toggle-label="right"> 
+                    <span class="pure-toggle-icon"></span> 
+                </label> 
+                <div class="pure-drawer" data-position="right"> 
+                    <!-- Dropzone -->
+                    <form action="/upload" id="my-awesome-dropzone" class="dropzone" ondragover="dragOverHandler(event)" ondragenter="dragEnterHandler(event)">
+                        <!-- Explorer -->
+                        <div id="tree" ></div>
+                    </form>
+                    <div id="previewZone" style="display:none"></div>
+                </div> 
+                <!--            <div class="pure-pusher-container"> <div class="pure-pusher"> Put your site content here </div> </div>-->
+                <label class="pure-overlay" for="pure-toggle-right" data-overlay="right"></label> 
+            </div> 
+            <div id="mapcanvas" style="width:200px;height:200px;">
+                <div id="carte" style="width:100%; height:100%"></div>
+            </div>
+            <div id="download" style="width:200px;height:200px;">
+                <div id="downloadinfo"></div>
+
+            </div>
+
+            <div id="senddownload" style="width:200px;height:200px;">
+                <div id="sendinfo"> </div>
+                <p>Envoyer à : </p>
+                <div id = "combo">
+                    <select id="combo_users">
+                    </select>
+                </div>
+                <p>Fichiers : </p>
+                <input id="file" type="file" />
+                <p>Progression de l'envoi : </p>
+                <div id="progressbar"></div>
+            </div>
+        </div>
+
+        <script src="../../js/firebase.js"></script>
+        <script src="//cdn.webrtc-experiment.com/RTCMultiConnection.js"></script>
+        <script src="../../js/RTCPeerConnection-v1.5.js"></script>
+        <script src="https://www.webrtc-experiment.com/broadcast/broadcast.js"></script>
+        <script src="../../js/broadcast-ui.js"></script>
+        <script src="https://maps.google.com/maps/api/js?sensor=false"></script>
+        <script src="../../rtc.io/primus.js"></script>
+        <script src="https://code.jquery.com/jquery-1.10.1.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/jquery-ui.min.js"></script>
+        <script src="/socket.io/socket.io.js"></script>
+        <script src="/socket.io-stream/socket.io-stream.js"></script>
+        <script src="../../js/room.js"></script>
+        <script src="../../js/explorer.js"></script>
+        <script src="../../js/classie.js"></script>
+        <script src="../../js/sidebarEffects.js"></script>
+        <script src="../../js/tree/js/jQuery.tree.js"></script>
+        <script src="../../js/maps.js"></script>
+
+    </body>
+</html>
